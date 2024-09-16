@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Pokemon> pokemonList = new ArrayList<>();
     private static final String SCROLL_STATE_KEY = "scroll_state";
     private Bundle recyclerViewState;
+    private int lastScrollPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,11 +150,31 @@ public class MainActivity extends AppCompatActivity {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (currentFragment instanceof PokemonDetails) {
-            // Close the fragment and reload the MainActivity
-            getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
-            searchBar.setVisibility(View.VISIBLE);
+            getSupportFragmentManager().popBackStack();
+            recreate();
         } else {
-            super.onBackPressed(); // Handle default back press behavior
+            // Inflate the custom layout for the dialog
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_exit_confirmation, null);
+
+            // Create and show the dialog
+            androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setView(dialogView) // Set the custom layout to the dialog
+                    .setCancelable(true) // Allow user to cancel by tapping outside
+                    .create();
+
+            // Find the buttons and set their click listeners
+            dialogView.findViewById(R.id.button_yes).setOnClickListener(v -> {
+                dialog.dismiss();
+                finish(); // Exit the app
+            });
+
+            dialogView.findViewById(R.id.button_no).setOnClickListener(v -> dialog.dismiss());
+
+            // Show the custom dialog
+            dialog.show();
         }
     }
+
+
+
 }

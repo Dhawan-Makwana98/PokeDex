@@ -55,13 +55,12 @@
         android:layout_weight="1"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:layout_gravity="center"
         android:isScrollContainer="false"
         android:smoothScrollbar="true"
         android:horizontalSpacing="8dp"
         android:numColumns="2"
         android:background="@drawable/mainbg"
-        android:stretchMode="columnWidth"
+        android:stretchMode="spacingWidthUniform"
         android:verticalSpacing="8dp" />
 
     <FrameLayout

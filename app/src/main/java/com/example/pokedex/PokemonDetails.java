@@ -57,8 +57,10 @@ public class PokemonDetails extends Fragment {
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         TextView nextTxt = view.findViewById(R.id.nextTxt);
+
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         TextView prevTxt = view.findViewById(R.id.prevTxt);
+
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         TextView weaknesstxt = view.findViewById(R.id.weaknesstxt);
 
@@ -148,19 +150,29 @@ public class PokemonDetails extends Fragment {
 
         backbtn.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager().popBackStack();
+            restartMainActivity();
         });
 
-        // Handle back press
+// Handle back press
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 requireActivity().getSupportFragmentManager().popBackStack();
+                restartMainActivity();
             }
         });
 
         return view;
     }
 
+
+    // Method to restart the MainActivity
+    private void restartMainActivity() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        requireActivity().finish();
+    }
 
     private void initializeAudioMap() {
         audioMap = new HashMap<>();
